@@ -153,6 +153,9 @@ function convertItemToSearchResultFn({
   selectedTemplate: Pick<Template, 'id' | 'name'> | undefined;
   projectSettings: ProjectSettings;
 }): CmsEntrySearchResult {
+  // use `new URL` to remove errant double slash `//` that may occur if projectUrl contains a trailing slash.
+  const projectUrl = new URL(projectSettings.projectUrl);
+  projectUrl.pathname = `/item/${item.id}`;
   return {
     id: item.id.toString(),
     title: item.name,
@@ -160,7 +163,7 @@ function convertItemToSearchResultFn({
       Type: selectedTemplate?.name || 'Unknown',
       Updated: <span>{timeAgo(item.updated_at)}</span>,
     },
-    editLink: `${projectSettings.projectUrl}/item/${item.id}`,
+    editLink: projectUrl.toString(),
   };
 }
 
