@@ -1,8 +1,8 @@
-import { Item, Template } from '../types';
+import { Item, Template } from "../types";
 
 export class GatherContentClient {
-  private credentials = '';
-  private projectId = '';
+  private credentials = "";
+  private projectId = "";
 
   constructor({
     apiUsername,
@@ -55,27 +55,33 @@ export class GatherContentClient {
 
   public async apiFetch<TResponseData>({
     apiPath,
-    requestMethod = 'GET',
+    requestMethod = "GET",
     headers,
     queryParams,
   }: {
     apiPath: string;
-    requestMethod?: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    requestMethod?: "GET" | "POST" | "PUT" | "DELETE";
     headers?: Record<string, string>;
-    queryParams?: Record<string, string | number | boolean | string[] | number[] | undefined>;
+    queryParams?: Record<
+      string,
+      string | number | boolean | string[] | number[] | undefined
+    >;
   }) {
-    const formattedApiPath = apiPath.startsWith('/') ? apiPath : `/${apiPath}`;
+    const formattedApiPath = apiPath.startsWith("/") ? apiPath : `/${apiPath}`;
     const querystring = objectToQuerystring(queryParams);
 
     try {
-      const response = await fetch(`https://api.gathercontent.com${formattedApiPath}${querystring}`, {
-        method: requestMethod,
-        headers: {
-          Accept: 'application/vnd.gathercontent.v2+json',
-          Authorization: `Basic ${this.credentials}`,
-          ...headers,
-        },
-      });
+      const response = await fetch(
+        `https://api.gathercontent.com${formattedApiPath}${querystring}`,
+        {
+          method: requestMethod,
+          headers: {
+            Accept: "application/vnd.gathercontent.v2+json",
+            Authorization: `Basic ${this.credentials}`,
+            ...headers,
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorMessage = await getErrorMessageFromResponse(response);
@@ -83,7 +89,7 @@ export class GatherContentClient {
       }
       return (await response.json()) as { data: TResponseData };
     } catch (err) {
-      throw new GatherContentError(err);
+      throw new GatherContentError(err as Error);
     }
   }
 }
@@ -97,40 +103,48 @@ export class GatherContentError extends Error {
 }
 
 function base64encode(value: string) {
-  if (typeof Buffer !== 'undefined') {
-    return Buffer.from(value).toString('base64');
-  } else if (typeof window !== 'undefined' && typeof window.btoa !== 'undefined') {
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(value).toString("base64");
+  } else if (
+    typeof window !== "undefined" &&
+    typeof window.btoa !== "undefined"
+  ) {
     return window.btoa(value);
   }
   return undefined;
 }
 
 function objectToQuerystring(
-  obj: Record<string, string | number | boolean | undefined | string[] | number[]> | undefined
+  obj:
+    | Record<
+        string,
+        string | number | boolean | undefined | string[] | number[]
+      >
+    | undefined
 ) {
   if (!obj) {
-    return '';
+    return "";
   }
 
   const queryParams: string[] = [];
   Object.entries(obj).forEach(([key, value]) => {
     if (Array.isArray(value)) {
-      queryParams.push(`${key}=${encodeURIComponent(value.join(','))}`);
-    } else if (typeof value !== 'undefined' && value !== null && value !== '') {
+      queryParams.push(`${key}=${encodeURIComponent(value.join(","))}`);
+    } else if (typeof value !== "undefined" && value !== null && value !== "") {
       queryParams.push(`${key}=${encodeURIComponent(value)}`);
     }
   });
-  const querystring = queryParams.join('&');
+  const querystring = queryParams.join("&");
 
-  return querystring ? '?' + querystring : '';
+  return querystring ? "?" + querystring : "";
 }
 
 async function getErrorMessageFromResponse(
-  response: Pick<Response, 'text' | 'status' | 'statusText'>,
-  propertyName = 'error'
+  response: Pick<Response, "text" | "status" | "statusText">,
+  propertyName = "error"
 ): Promise<string> {
   if (!response) {
-    return 'Response was falsy';
+    return "Response was falsy";
   }
 
   try {
@@ -152,7 +166,10 @@ async function getErrorMessageFromResponse(
     return `${response.status} ${response.statusText}`;
   } catch (e) {
     // eslint-disable-next-line no-console
-    console.warn(`Couldn't parse API response for error, using status code instead`, e);
+    console.warn(
+      `Couldn't parse API response for error, using status code instead`,
+      e
+    );
     return `${response.status} ${response.statusText}`;
   }
 }
@@ -161,11 +178,11 @@ function tryParseJson<T>(jsonString: string): T | Error | null {
   try {
     const json = JSON.parse(jsonString);
     // handle non-exception-throwing cases
-    if (json && typeof json === 'object' && json !== null) {
+    if (json && typeof json === "object" && json !== null) {
       return json as T;
     }
   } catch (e) {
-    return e;
+    return e as Error;
   }
 
   return null;
