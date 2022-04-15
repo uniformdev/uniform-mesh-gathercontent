@@ -1,4 +1,11 @@
-import { Callout, LoadingIndicator, useUniformMeshLocation, Icons } from '@uniformdev/mesh-sdk-react';
+import React from 'react';
+import {
+  Callout,
+  LoadingIndicator,
+  useUniformMeshLocation,
+  ScrollableList,
+  ScrollableListItem,
+} from '@uniformdev/mesh-sdk-react';
 import { useAsync } from 'react-use';
 import {
   CanvasItemSelectorConfigValue,
@@ -101,41 +108,26 @@ function TemplateSelector({ projectSettings, value, setValue }: TemplateSelector
   };
 
   return (
-    <div className="relative">
-      <label className="uniform-input-label">Allowed Templates</label>
+    <ScrollableList label="Allowed Templates">
       {loading ? <LoadingIndicator /> : null}
       {Array.isArray(templates) ? (
-        <div
-          className="overflow-y-auto p-2 bg-gray-100 border-t border-b border-gray-300 space-y-2 max-h-96"
-          data-test-id="content-type-selector"
-        >
-          {templates.length === 0 ? (
-            <Callout type="caution">No templates were found for project {projectSettings?.projectId}</Callout>
-          ) : (
-            templates.map((template, index) => {
-              const active = Boolean(value ? value[template.id] : false);
-              return (
-                <div
-                  key={index}
-                  className={`flex items-center space-x-2 p-3 bg-white border-2 rounded-md shadow-md ${
-                    active ? 'border-green-500' : 'border-gray-300'
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => handleMenuItemClick(template)}
-                    className="flex items-center justify-between w-full outline-none focus:outline-none"
-                  >
-                    <span>{template.name}</span>
-                    {active ? <Icons.Checkmark className="block h-6 w-6 text-green-500" /> : null}
-                  </button>
-                </div>
-              );
-            })
-          )}
-        </div>
+        templates.length === 0 ? (
+          <Callout type="caution">No templates were found for project {projectSettings?.projectId}</Callout>
+        ) : (
+          templates.map((template, index) => {
+            const active = Boolean(value ? value[template.id] : false);
+            return (
+              <ScrollableListItem
+                active={active}
+                buttonText={template.name}
+                key={index}
+                onClick={() => handleMenuItemClick(template)}
+              />
+            );
+          })
+        )
       ) : null}
       {error ? <Callout type="error">{error.message}</Callout> : null}
-    </div>
+    </ScrollableList>
   );
 }

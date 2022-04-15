@@ -108,25 +108,33 @@ const SettingsInner = ({
   };
 
   return (
-    <div className="space-y-4 relative">
+    <div className="space-y-4 relative mt-4">
       <LoadingOverlay isActive={formState.isSubmitting} />
       {error ? <Callout type="error">{error.message}</Callout> : null}
       {formState.saveSuccess ? <Callout type="success">Settings were saved successfully</Callout> : null}
 
-      <Input name="projectId" label="Project Id" onChange={handleInputChange} value={formState.projectId} />
-      <Input
-        name="projectUrl"
-        label="Project Access URL (ex: https://my-organization.gathercontent.com)"
-        onChange={handleInputChange}
-        value={formState.projectUrl}
-      />
-      <Input
-        name="apiUsername"
-        label="API Username"
-        onChange={handleInputChange}
-        value={formState.apiUsername}
-      />
-      <Input name="apiKey" label="API Key" onChange={handleInputChange} value={formState.apiKey} />
+      <div>
+        <Input name="projectId" label="Project Id" onChange={handleInputChange} value={formState.projectId} />
+      </div>
+      <div>
+        <Input
+          name="projectUrl"
+          label="Project Access URL (ex: https://my-organization.gathercontent.com)"
+          onChange={handleInputChange}
+          value={formState.projectUrl}
+        />
+      </div>
+      <div>
+        <Input
+          name="apiUsername"
+          label="API Username"
+          onChange={handleInputChange}
+          value={formState.apiUsername}
+        />
+      </div>
+      <div>
+        <Input name="apiKey" label="API Key" onChange={handleInputChange} value={formState.apiKey} />
+      </div>
       <Button type="submit" buttonType="secondary" disabled={formState.isSubmitting} onClick={handleSubmit}>
         Save
       </Button>

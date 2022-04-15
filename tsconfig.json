@@ -1,22 +1,26 @@
 {
   "compilerOptions": {
-    "jsx": "preserve",
-    "baseUrl": ".",
-    "incremental": true,
-    "lib": ["dom", "esnext"],
     "target": "es2018",
+    "module": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "useUnknownInCatchVariables": false,
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "newLine": "LF",
-    "declaration": true
+    "jsx": "preserve",
+    "declaration": true,
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

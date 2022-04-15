@@ -1,12 +1,17 @@
 import '../styles/global.css';
 import type { AppProps } from 'next/app';
-import { UniformMeshSdkContextProvider, useInitializeUniformMeshSdk } from '@uniformdev/mesh-sdk-react';
+import {
+  Callout,
+  UniformMeshSdkContextProvider,
+  useInitializeUniformMeshSdk,
+} from '@uniformdev/mesh-sdk-react';
+import React from 'react';
 
 function App({ Component, pageProps }: AppProps) {
   const { initializing, error } = useInitializeUniformMeshSdk();
 
   if (error) {
-    throw error;
+    return <Callout type="error">{error.message}</Callout>;
   }
 
   return initializing ? null : (
