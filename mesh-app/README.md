@@ -26,3 +26,6 @@ Add an external integration in the Uniform dashboard and use the following for t
   }
 }
 ```
+
+Public `baseLocationUrl`: https://gathercontent.mesh.uniform.app
+Canary `baseLocationUrl`: https://canary--gathercontent-mesh-integration.netlify.app
