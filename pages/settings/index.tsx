@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useUniformMeshLocation, Input, Button, Callout, LoadingOverlay } from '@uniformdev/mesh-sdk-react';
+import {
+  useUniformMeshLocation,
+  Input,
+  Button,
+  Callout,
+  LoadingOverlay,
+  Heading,
+} from '@uniformdev/mesh-sdk-react';
 import { ProjectSettings, SettingsValue } from '../../types';
 
 export default function Settings() {
@@ -18,7 +25,7 @@ export default function Settings() {
 
   return (
     <>
-      <h3 className="main-heading">GatherContent settings</h3>
+      <Heading level={2}>GatherContent settings</Heading>
       <SettingsInner settings={value?.linkedSources?.[0].project} onSettingsChange={handleSettingsChange} />
     </>
   );
@@ -90,7 +97,7 @@ const SettingsInner = ({
         isSubmitting: false,
         saveSuccess: true,
       }));
-    } catch (err) {
+    } catch (err: any) {
       setError(err);
       setFormState((prev) => ({
         ...prev,

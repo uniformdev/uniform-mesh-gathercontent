@@ -1,7 +1,7 @@
 import { Template } from './GatherContentTypes';
 
 export type TemplateMap = {
-  [templateId: number]: Pick<Template, 'id' | 'name'> | undefined;
+  [templateId: Template['id']]: Pick<Template, 'id' | 'name'> | undefined;
 };
 
 export type CanvasItemSelectorConfigValue =

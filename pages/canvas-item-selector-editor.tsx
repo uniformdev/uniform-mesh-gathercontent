@@ -10,16 +10,16 @@ import {
 } from '../types';
 import {
   Callout,
-  CmsEntrySearch,
-  CmsEntrySearchContentType,
-  CmsEntrySearchResult,
+  EntrySearch,
+  EntrySearchContentType,
+  EntrySearchResult,
   LoadingIndicator,
   useUniformMeshLocation,
 } from '@uniformdev/mesh-sdk-react';
 import { useAsync, useAsyncFn, useMountedState } from 'react-use';
 import { format as timeAgo } from 'timeago.js';
 import { GatherContentClient } from '../lib/GatherContentClient';
-import LogoIcon from '../public/gathercontent-logo-icon.png';
+import LogoIcon from '../public/gathercontent-badge.png';
 
 export default function CanvasItemSelectorEditor() {
   const { value, setValue, metadata } = useUniformMeshLocation<
@@ -100,7 +100,7 @@ function ItemSearch({
   const contentTypeOptions = availableTemplates
     ? Object.values(availableTemplates)
         ?.filter((template) => Boolean(template))
-        ?.map<CmsEntrySearchContentType>((template) => ({
+        ?.map<EntrySearchContentType>((template) => ({
           id: template!.id.toString(),
           name: template!.name,
         }))
@@ -130,10 +130,11 @@ function ItemSearch({
   }
 
   return (
-    <CmsEntrySearch
+    <EntrySearch
       contentTypes={contentTypeOptions}
       search={handleSearch}
       results={searchState.value}
+      resultsLoading={searchState.loading}
       logoIcon={LogoIcon.src}
       multiSelect={true}
       selectedItems={selectedItems}
@@ -152,7 +153,7 @@ function convertItemToSearchResultFn({
   item: Item;
   selectedTemplate: Pick<Template, 'id' | 'name'> | undefined;
   projectSettings: ProjectSettings;
-}): CmsEntrySearchResult {
+}): EntrySearchResult {
   // use `new URL` to remove errant double slash `//` that may occur if projectUrl contains a trailing slash.
   const projectUrl = new URL(projectSettings.projectUrl);
   projectUrl.pathname = `/item/${item.id}`;

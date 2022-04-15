@@ -82,7 +82,7 @@ export class GatherContentClient {
         throw new GatherContentError(new Error(errorMessage));
       }
       return (await response.json()) as { data: TResponseData };
-    } catch (err) {
+    } catch (err: any) {
       throw new GatherContentError(err);
     }
   }
@@ -164,7 +164,7 @@ function tryParseJson<T>(jsonString: string): T | Error | null {
     if (json && typeof json === 'object' && json !== null) {
       return json as T;
     }
-  } catch (e) {
+  } catch (e: any) {
     return e;
   }
 
