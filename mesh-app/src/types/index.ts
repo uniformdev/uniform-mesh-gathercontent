@@ -24,9 +24,7 @@ export interface GetContentTypesResponse {
 
 export interface ContentEntity {
   id: number
-  attributes?: {
-    [name: string]: any
-  }
+  template_id?: number
 }
 
 export interface GetContentEntityResponse {

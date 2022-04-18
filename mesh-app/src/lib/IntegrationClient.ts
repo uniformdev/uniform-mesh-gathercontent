@@ -126,46 +126,31 @@ export default class IntegrationClient implements Params {
 
   async getContentEntries({ entries }): Promise<ContentEntry[]> {
     const token = await this.login()
-    // entries is an array of objects { id: string (id of entry), contentType: string (id of entry's content type) }
-    // group entries by content types
-    const idsByContentType = groupBy(entries, 'contentType.id')
-    // get content types ids
-    const contentTypeIds = Object.entries(idsByContentType)
-    // fetch data for each content type separately
-    const itemLists = await Promise.all(
-      contentTypeIds.map(async ([contentTypeId, items]) => {
-        const contentTypeData = items[0]?.contentType
 
-        const query = qs.stringify(
-          {
-            template_id: contentTypeId,
-            name_contains: idsByContentType[contentTypeId].map(e => e.cmsId),
-          },
-          {
-            encodeValuesOnly: true,
-          }
-        )
-
-        const url = `${this.apiHost}/projects/${this.projectId}/items?${query}`
-
-        const res = await fetch(url, {
-          headers: { Authorization: `Basic ${token}` },
-        })
-        if (!res.ok) {
-          const msg = await res.text()
-          throw new Error(`Error fetching '${url}': ${msg}`)
-        }
-
-        const currentResult: GetContentEntityResponse = await res.json()
-
-        return (currentResult?.data || []).map(item => ({
-          ...item,
-          contentTypeId: contentTypeData?.id,
-        }))
-      })
+    const query = qs.stringify(
+      {
+        name_contains: entries.map(e => e.cmsId),
+      },
+      {
+        encodeValuesOnly: true,
+      }
     )
 
-    // concat arrays of fetched data
-    return itemLists.flat().map(IntegrationClient.mapContentEntity)
+    const url = `${this.apiHost}/projects/${this.projectId}/items?${query}`
+
+    const res = await fetch(url, {
+      headers: { Authorization: `Basic ${token}` },
+    })
+    if (!res.ok) {
+      const msg = await res.text()
+      throw new Error(`Error fetching '${url}': ${msg}`)
+    }
+
+    const result: GetContentEntityResponse = await res.json()
+
+    return (result?.data || []).map(item => ({
+      ...item,
+      contentTypeId: item?.template_id,
+    })).map(IntegrationClient.mapContentEntity)
   }
 }
