@@ -7,11 +7,8 @@ import {
   LoginResponse,
   Params,
 } from '../types'
-import { groupBy } from './utils'
 import { INTEGRATION_COOKIE_NAME } from './constants'
 import { getFromSessionStorage, setToSessionStorage } from './sessionStorage'
-
-const SEARCH_TYPES = ['richtext', 'string']
 
 export default class IntegrationClient implements Params {
   apiUsername = null
@@ -22,10 +19,10 @@ export default class IntegrationClient implements Params {
 
   apiHost = null
 
-  constructor({ identifier, password, apiHost }) {
-    this.apiUsername = identifier
-    this.apiKey = password
-    this.projectId = password
+  constructor({ apiUsername, apiKey, projectId, apiHost }) {
+    this.apiUsername = apiUsername
+    this.apiKey = apiKey
+    this.projectId = projectId
     this.apiHost = apiHost
   }
 
@@ -34,7 +31,7 @@ export default class IntegrationClient implements Params {
       id: entry?.id?.toString(),
       cmsId: entry?.id?.toString(),
       lastModified: entry?.updated_at,
-      data: entry,
+      data: { name: entry?.name },
       contentTypeId: entry?.contentTypeId,
       editEndpoint: `item/${entry?.id}`,
     }
