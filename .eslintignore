@@ -1,0 +1,17 @@
+dist
+esm
+node_modules
+build
+package.json
+storybook-static
+demo-app
+coverage
+**/vendor
+**/scripts
+packages/**/node_modules
+public/*
+out
+raw/*
+**/dist/*
+**/node_modules/*
+static/*
