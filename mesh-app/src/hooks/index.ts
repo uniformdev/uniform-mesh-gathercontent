@@ -15,6 +15,7 @@ export function useGetContentEntriesById({ settings, entries, integrationClient 
 
     return integrationClient.getContentEntries({
       entries,
+      withContent: true
     })
   }, [settings.apiKey, entries?.map(entry => entry.id)?.join(',')])
 
@@ -110,6 +111,7 @@ export function useSearchContentEntries({
       const results = await integrationClient.searchContentEntries({
         contentType: selectedContentType,
         searchText: text?.toString() || '',
+        withContent: true
       })
 
       if (results) {

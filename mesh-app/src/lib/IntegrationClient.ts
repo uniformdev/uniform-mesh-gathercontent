@@ -181,7 +181,7 @@ export default class IntegrationClient implements Params {
 
         const result = await res.json()
 
-        const { fields } = result.data.structure.groups
+        const { fields } = result.data?.structure?.groups?.[0] || {}
 
         return {
           ...entry,

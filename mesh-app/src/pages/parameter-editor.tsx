@@ -15,7 +15,6 @@ const CmsCanvasParameterEditor = () => {
     apiHost: settings.apiHost,
     projectId: settings.projectId,
     apiKey: settings.apiKey,
-    cmsHost: settings.cmsHost,
   })
 
   return (

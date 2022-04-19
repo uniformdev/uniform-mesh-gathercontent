@@ -13,7 +13,6 @@ const CmsCanvasParameterConfig = () => {
     apiKey: settings.apiKey,
     apiUsername: settings.apiUsername,
     projectId: settings.projectId,
-    cmsHost: settings.cmsHost,
   })
 
   const handleAllowedContentTypesSetValue = async allowedContentTypes => {
