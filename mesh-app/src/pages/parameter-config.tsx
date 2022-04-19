@@ -41,17 +41,14 @@ const CmsCanvasParameterConfig = () => {
         value={config?.allowedContentTypes}
       />
 
-      <div className="parameter-container">
-        <span className="parameter-label">Allow Multi Select</span>
-        <div className="parameter-wrapper">
-          <InputToggle
-            label="Multi select"
-            name="multiSelect"
-            checked={config?.multiSelect}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSetMultiSelect(e?.target.checked)}
-            type="checkbox"
-          />
-        </div>
+      <div className="container-with-vertical-padding">
+        <InputToggle
+          label="Allow multiselect"
+          name="multiSelect"
+          checked={config?.multiSelect}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSetMultiSelect(e?.target.checked)}
+          type="checkbox"
+        />
       </div>
 
       <Input label="Display field" value={config?.displayName} onChange={e => handleSetDisplayName(e?.target.value)} />

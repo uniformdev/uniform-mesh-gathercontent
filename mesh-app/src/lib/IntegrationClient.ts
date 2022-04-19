@@ -101,7 +101,7 @@ export default class IntegrationClient implements Params {
     const url = `${this.apiHost}/projects/${this.projectId}/items?${query}`
 
     const res = await fetch(url, {
-      headers: { Authorization: `Basic ${token}` },
+      headers: { Authorization: `Basic ${token}`, Accept: 'application/vnd.gathercontent.v2+json' },
     })
     if (!res.ok) {
       const msg = await res.text()
@@ -130,7 +130,7 @@ export default class IntegrationClient implements Params {
     const url = `${this.apiHost}/projects/${this.projectId}/items?${query}`
 
     const res = await fetch(url, {
-      headers: { Authorization: `Basic ${token}` },
+      headers: { Authorization: `Basic ${token}`, Accept: 'application/vnd.gathercontent.v2+json' },
     })
     if (!res.ok) {
       const msg = await res.text()

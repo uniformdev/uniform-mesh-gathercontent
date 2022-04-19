@@ -31,7 +31,7 @@ const ContentTypeSelector = ({ settings, value, setValue, integrationClient }: E
     await setValue(allowedContentTypes)
   }
   return (
-    <div className="relative">
+    <div>
       {loading ? <LoadingIndicator /> : null}
       {Array.isArray(contentTypes) ? (
         <div data-test-id="content-type-selector">
@@ -43,7 +43,7 @@ const ContentTypeSelector = ({ settings, value, setValue, integrationClient }: E
                 const isActive = Boolean(value ? value[item.id] : false)
 
                 return (
-                  <div key={item.id} className="allowed-content-type-wrapper">
+                  <div key={item.id} className="container-with-vertical-margin">
                     <ScrollableListItem
                       buttonText={item.name}
                       active={isActive}
