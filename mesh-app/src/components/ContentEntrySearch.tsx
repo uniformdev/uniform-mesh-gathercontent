@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 import { useFilteredContentTypes, useSearchContentEntries, useSelectedContentEntries } from '../hooks'
 import { convertContentEntryToSearchResultFn } from '../lib/utils'
 import { ContentType } from '../types'
-import LogoIcon from '../../public/gathercontent-badge.svg'
+import LogoIcon from '../../public/gathercontent-badge.png'
 
 const ContentEntrySearch = ({
   allowedContentTypes,
