@@ -1,5 +1,12 @@
 import qs from 'qs'
-import { ContentEntry, ContentType, GetContentEntityResponse, GetContentTypesResponse, Params } from '../types'
+import {
+  ContentEntity,
+  ContentEntry,
+  ContentType,
+  GetContentEntityResponse,
+  GetContentTypesResponse,
+  Params,
+} from '../types'
 import { INTEGRATION_COOKIE_NAME } from './constants'
 import { getFromSessionStorage, setToSessionStorage } from './sessionStorage'
 
@@ -24,7 +31,7 @@ export default class IntegrationClient implements Params {
       id: entry?.id?.toString(),
       cmsId: entry?.id?.toString(),
       lastModified: entry?.updated_at,
-      data: { name: entry?.name, id: entry?.id?.toString() },
+      data: { name: entry?.name, id: entry?.id?.toString(), ...(entry.content || {}) },
       contentTypeId: entry?.contentTypeId,
       editEndpoint: `item/${entry?.id}`,
     }
@@ -85,7 +92,7 @@ export default class IntegrationClient implements Params {
     return result?.data?.map(IntegrationClient.mapContentType) || []
   }
 
-  async searchContentEntries({ searchText, contentType }): Promise<ContentEntry[]> {
+  async searchContentEntries({ searchText, contentType, withContent = false }): Promise<ContentEntry[]> {
     const token = await this.login()
 
     const query = qs.stringify(
@@ -110,12 +117,16 @@ export default class IntegrationClient implements Params {
 
     const result: GetContentEntityResponse = await res.json()
 
-    return (result?.data || [])
-      .map(e => ({ ...e, contentTypeId: contentType.id }))
-      .map(IntegrationClient.mapContentEntity)
+    let cmsEntries = result?.data || []
+
+    if (withContent) {
+      cmsEntries = await this.updateContentEntriesWithContent({ entries: cmsEntries })
+    }
+
+    return cmsEntries.map(e => ({ ...e, contentTypeId: contentType.id })).map(IntegrationClient.mapContentEntity)
   }
 
-  async getContentEntries({ entries }): Promise<ContentEntry[]> {
+  async getContentEntries({ entries, withContent = false }): Promise<ContentEntry[]> {
     const token = await this.login()
 
     const query = qs.stringify(
@@ -139,11 +150,50 @@ export default class IntegrationClient implements Params {
 
     const result: GetContentEntityResponse = await res.json()
 
-    return (result?.data || [])
+    let cmsEntries = result?.data || []
+
+    if (withContent) {
+      cmsEntries = await this.updateContentEntriesWithContent({ entries: cmsEntries })
+    }
+
+    return cmsEntries
       .map(item => ({
         ...item,
         contentTypeId: item?.template_id,
       }))
       .map(IntegrationClient.mapContentEntity)
+  }
+
+  async updateContentEntriesWithContent({ entries }): Promise<ContentEntity[]> {
+    const token = await this.login()
+
+    return Promise.all(
+      entries.map(async entry => {
+        const url = `${this.apiHost}/items/${entry.id}?include=structure`
+
+        const res = await fetch(url, {
+          headers: { Authorization: `Basic ${token}`, Accept: 'application/vnd.gathercontent.v2+json' },
+        })
+        if (!res.ok) {
+          const msg = await res.text()
+          throw new Error(`Error fetching '${url}': ${msg}`)
+        }
+
+        const result = await res.json()
+
+        const { fields } = result.data.structure.groups
+
+        return {
+          ...entry,
+          content: Object.keys(result.data.content).reduce(
+            (content, key) => ({
+              ...content,
+              [fields.find(f => f.uuid === key).label]: result.data.content[key],
+            }),
+            {}
+          ),
+        }
+      })
+    )
   }
 }
