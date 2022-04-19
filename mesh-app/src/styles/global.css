@@ -1,20 +1,7 @@
-.allowed-content-type-wrapper {
-    margin: 2px 0;
+.container-with-vertical-margin {
+    margin: 10px 0;
 }
 
-.parameter-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.parameter-container {
+.container-with-vertical-padding {
     padding: 10px 0;
-}
-
-.parameter-wrapper {
-    background-color: #f9fafb;
-    border-top: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 10px;
 }
