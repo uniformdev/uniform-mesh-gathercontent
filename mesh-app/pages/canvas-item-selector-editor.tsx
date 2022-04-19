@@ -35,7 +35,7 @@ export default function CanvasItemSelectorEditor() {
   const sourceId = value?.source || metadata.parameterConfiguration?.source || 'default';
   const resolvedLinkedSource = metadata.settings.linkedSources?.find((ls) => ls.id === sourceId);
 
-  if (resolvedLinkedSource) {
+  if (resolvedLinkedSource?.project?.apiKey) {
     return (
       <ItemSearch
         linkedSource={resolvedLinkedSource}
@@ -46,7 +46,12 @@ export default function CanvasItemSelectorEditor() {
     );
   }
 
-  return null;
+  return (
+    <Callout type="error">
+      It appears the GatherContent integration is not configured. Please visit the &quot;Settings &gt;
+      GatherContent&quot; page to provide information for connecting to GatherContent.
+    </Callout>
+  );
 }
 
 function ItemSearch({

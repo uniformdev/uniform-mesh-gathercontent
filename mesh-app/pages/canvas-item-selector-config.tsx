@@ -60,7 +60,12 @@ export default function CanvasItemSelectorConfig() {
           setValue={handleAllowedTemplatesSetValue}
           value={config.allowedTemplates}
         />
-      ) : null}
+      ) : (
+        <Callout type="error">
+          It appears the GatherContent integration is not configured. Please visit the &quot;Settings &gt;
+          GatherContent&quot; page to provide information for connecting to GatherContent.
+        </Callout>
+      )}
     </>
   );
 }
