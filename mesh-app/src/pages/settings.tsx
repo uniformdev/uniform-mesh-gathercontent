@@ -9,6 +9,7 @@ const Settings = () => {
     apiHost: value.apiHost,
     apiKey: value.apiKey,
     projectId: value.projectId,
+    cmsHost: value.cmsHost,
   })
 
   const [isSaving, setIsSaving] = useState(false)
@@ -20,6 +21,7 @@ const Settings = () => {
       apiHost: formValues.apiHost,
       apiKey: formValues.apiKey,
       projectId: formValues.projectId,
+      cmsHost: formValues.cmsHost,
     }
 
     setIsSaving(true)
@@ -85,6 +87,15 @@ const Settings = () => {
       />
 
       <Input
+        name="cmsHost"
+        label="CMS Host"
+        onChange={handleFormInputChange}
+        value={formValues.cmsHost || ''}
+        placeholder="Provide any value here"
+        caption="Provide any value here"
+      />
+
+      <Input
         name="projectId"
         label="Project id"
         onChange={handleFormInputChange}
@@ -98,7 +109,12 @@ const Settings = () => {
         buttonType="secondary"
         onClick={handleSaveClick}
         disabled={
-          isSaving || !formValues.apiHost || !formValues.apiUsername || !formValues.apiKey || !formValues.projectId
+          isSaving ||
+          !formValues.apiHost ||
+          !formValues.apiUsername ||
+          !formValues.apiKey ||
+          !formValues.projectId ||
+          !formValues.cmsHost
         }
       >
         Save

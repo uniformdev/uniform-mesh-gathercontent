@@ -24,7 +24,7 @@ export default class IntegrationClient implements Params {
       id: entry?.id?.toString(),
       cmsId: entry?.id?.toString(),
       lastModified: entry?.updated_at,
-      data: { name: entry?.name },
+      data: { name: entry?.name, id: entry?.id?.toString() },
       contentTypeId: entry?.contentTypeId,
       editEndpoint: `item/${entry?.id}`,
     }

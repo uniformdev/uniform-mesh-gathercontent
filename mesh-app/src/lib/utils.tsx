@@ -6,11 +6,12 @@ export function convertContentEntryToSearchResultFn({
   entry,
   settings,
   selectedContentType,
+  displayName,
 }: ConvertContentEntryToSearchResultParams): ConvertContentEntryToSearchResult {
   return {
     id: entry.cmsId,
     contentType: entry.contentTypeId,
-    title: entry.data?.name,
+    title: entry.data[displayName],
     metadata: {
       Type: selectedContentType?.name || 'Unknown',
       Updated: <span>{timeAgo(entry.lastModified)}</span>,
