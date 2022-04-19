@@ -11,9 +11,10 @@ const CmsCanvasParameterEditor = () => {
   const { settings } = metadata
 
   const client = new IntegrationClient({
-    identifier: settings.identifier,
-    password: settings.password,
+    apiUsername: settings.apiUsername,
     apiHost: settings.apiHost,
+    projectId: settings.projectId,
+    apiKey: settings.apiKey,
   })
 
   return (

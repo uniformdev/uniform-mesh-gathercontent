@@ -5,9 +5,10 @@ import { MeshError, Params } from '../types'
 const Settings = () => {
   const { value, setValue } = useUniformMeshLocation<Params, Params>()
   const [formValues, setFormValues] = useState<Params>({
-    password: value.password,
-    identifier: value.identifier,
+    apiUsername: value.apiUsername,
     apiHost: value.apiHost,
+    apiKey: value.apiKey,
+    projectId: value.projectId,
   })
 
   const [isSaving, setIsSaving] = useState(false)
@@ -15,9 +16,10 @@ const Settings = () => {
 
   const handleSaveClick = async () => {
     const newSettings = {
-      password: formValues.password,
-      identifier: formValues.identifier,
+      apiUsername: formValues.apiUsername,
       apiHost: formValues.apiHost,
+      apiKey: formValues.apiKey,
+      projectId: formValues.projectId,
     }
 
     setIsSaving(true)
@@ -51,24 +53,24 @@ const Settings = () => {
 
   return (
     <div>
-      <Heading level={2}>Gathercontent settings</Heading>
+      <Heading level={2}>GatherContent settings</Heading>
       <LoadingOverlay isActive={isSaving} />
       {error ? <Callout type="error">{getErrorMessage(error)}</Callout> : null}
       <Input
-        name="identifier"
-        label="Identifier"
+        name="apiUsername"
+        label="Api username"
         onChange={handleFormInputChange}
-        value={formValues.identifier || ''}
+        value={formValues.apiUsername || ''}
         caption="Provide any value here"
         placeholder="Provide any value here"
       />
 
       <Input
-        name="password"
-        label="Password"
+        name="apiKey"
+        label="Api key"
         type="password"
         onChange={handleFormInputChange}
-        value={formValues.password || ''}
+        value={formValues.apiKey || ''}
         placeholder="Provide any value here"
         caption="Provide any value here"
       />
@@ -82,11 +84,22 @@ const Settings = () => {
         caption="Provide any value here"
       />
 
+      <Input
+        name="projectId"
+        label="Project id"
+        onChange={handleFormInputChange}
+        value={formValues.projectId || ''}
+        placeholder="Provide any value here"
+        caption="Provide any value here"
+      />
+
       <Button
         type="button"
         buttonType="secondary"
         onClick={handleSaveClick}
-        disabled={isSaving || !formValues.identifier || !formValues.password || !formValues.apiHost}
+        disabled={
+          isSaving || !formValues.apiHost || !formValues.apiUsername || !formValues.apiKey || !formValues.projectId
+        }
       >
         Save
       </Button>

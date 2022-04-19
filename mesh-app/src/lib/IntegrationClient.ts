@@ -1,12 +1,5 @@
 import qs from 'qs'
-import {
-  ContentEntry,
-  ContentType,
-  GetContentEntityResponse,
-  GetContentTypesResponse,
-  LoginResponse,
-  Params,
-} from '../types'
+import { ContentEntry, ContentType, GetContentEntityResponse, GetContentTypesResponse, Params } from '../types'
 import { INTEGRATION_COOKIE_NAME } from './constants'
 import { getFromSessionStorage, setToSessionStorage } from './sessionStorage'
 
@@ -77,8 +70,9 @@ export default class IntegrationClient implements Params {
     const token = await this.login()
 
     const url = `${this.apiHost}/projects/${this.projectId}/templates`
+
     const res = await fetch(url, {
-      headers: { Authorization: `Basic ${token}` },
+      headers: { Authorization: `Basic ${token}`, Accept: 'application/vnd.gathercontent.v2+json' },
     })
 
     if (!res.ok) {
@@ -145,9 +139,11 @@ export default class IntegrationClient implements Params {
 
     const result: GetContentEntityResponse = await res.json()
 
-    return (result?.data || []).map(item => ({
-      ...item,
-      contentTypeId: item?.template_id,
-    })).map(IntegrationClient.mapContentEntity)
+    return (result?.data || [])
+      .map(item => ({
+        ...item,
+        contentTypeId: item?.template_id,
+      }))
+      .map(IntegrationClient.mapContentEntity)
   }
 }

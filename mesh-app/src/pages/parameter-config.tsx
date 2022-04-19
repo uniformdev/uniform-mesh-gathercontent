@@ -9,9 +9,10 @@ const CmsCanvasParameterConfig = () => {
   const { settings } = metadata
 
   const client = new IntegrationClient({
-    identifier: settings.identifier,
-    password: settings.password,
     apiHost: settings.apiHost,
+    apiKey: settings.apiKey,
+    apiUsername: settings.apiUsername,
+    projectId: settings.projectId,
   })
 
   const handleAllowedContentTypesSetValue = async allowedContentTypes => {
@@ -26,10 +27,10 @@ const CmsCanvasParameterConfig = () => {
     await setConfig({ ...config, displayName })
   }
 
-  return !settings?.identifier ? (
+  return !settings?.apiUsername ? (
     <Callout type="error">
-      It appears the Gathercontent integration is not configured. Please visit the &quot;Settings &gt; Strapi&quot; page to
-      provide information for connecting to Gathercontent.
+      It appears the Gathercontent integration is not configured. Please visit the &quot;Settings &gt; Strapi&quot; page
+      to provide information for connecting to Gathercontent.
     </Callout>
   ) : (
     <>
