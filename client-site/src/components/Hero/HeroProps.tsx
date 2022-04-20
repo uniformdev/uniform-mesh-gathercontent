@@ -1,12 +1,11 @@
 import { ComponentProps } from '@uniformdev/canvas-react'
-import { StrapiImage } from '../../types'
 
 export type HeroProps = ComponentProps<{
   hero: {
-    attributes: {
+    data: {
       title: string
       text: string
-      image: StrapiImage
+      image: { url: string }[]
     }
   }[]
 }>

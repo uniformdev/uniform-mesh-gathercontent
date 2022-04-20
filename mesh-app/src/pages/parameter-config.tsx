@@ -29,7 +29,7 @@ const CmsCanvasParameterConfig = () => {
 
   return !settings?.apiUsername ? (
     <Callout type="error">
-      It appears the Gathercontent integration is not configured. Please visit the &quot;Settings &gt; Strapi&quot; page
+      It appears the Gathercontent integration is not configured. Please visit the &quot;Settings &gt; GatherContent&quot; page
       to provide information for connecting to Gathercontent.
     </Callout>
   ) : (

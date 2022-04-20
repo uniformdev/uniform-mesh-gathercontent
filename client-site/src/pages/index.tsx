@@ -12,7 +12,7 @@ const Home: NextPage<ContainerProps> = ({ composition }) => <Container compositi
 
 export const getStaticProps: GetStaticProps<ContainerProps> = async context => ({
   props: {
-    composition: await getCompositionBySlug('/strapi', context),
+    composition: await getCompositionBySlug('/gather-content', context),
   },
 })
 

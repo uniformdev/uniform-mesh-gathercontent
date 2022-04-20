@@ -1,25 +1,28 @@
 import getConfig from 'next/config'
-import { createStrapiEnhancer } from './createEnhancer'
-import StrapiClient from '../StrapiClient'
+import { createGatherContentEnhancer } from './createEnhancer'
+import GatherContentClient from '../GatherContentClient'
 
 const { serverRuntimeConfig } = getConfig()
-const { identifier, password, apiHost } = serverRuntimeConfig
+const { apiUsername, apiKey, projectId, apiHost } = serverRuntimeConfig
 
-const strapiEnhancer = () => {
-  if (!identifier) {
-    throw new Error('STRAPI_IDENTIFIER env not set.')
+const gatherContentEnhancer = () => {
+  if (!apiUsername) {
+    throw new Error('GATHER_CONTENT_API_USERNAME env not set.')
   }
-  if (!password) {
-    throw new Error('STRAPI_PASSWORD env not set.')
+  if (!apiKey) {
+    throw new Error('GATHER_CONTENT_API_KEY env not set.')
+  }
+  if (!projectId) {
+    throw new Error('GATHER_CONTENT_PROJECT_ID env not set.')
   }
   if (!apiHost) {
-    throw new Error('STRAPI_API_HOST env not set.')
+    throw new Error('GATHER_CONTENT_API_HOST env not set.')
   }
 
-  const client = new StrapiClient({ identifier, password, apiHost })
-  return createStrapiEnhancer({
+  const client = new GatherContentClient({ apiUsername, apiKey, projectId, apiHost })
+  return createGatherContentEnhancer({
     clients: client,
   })
 }
 
-export default strapiEnhancer
+export default gatherContentEnhancer

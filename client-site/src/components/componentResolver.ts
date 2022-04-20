@@ -5,8 +5,8 @@ import ProductsCarousel from './ProductsCarousel'
 import HeroFullWidth from './Hero/HeroFullWidth'
 
 const componentMappings = {
-  strapiproductcarusel: ProductsCarousel,
-  strapiHeroFullWidth: HeroFullWidth,
+  gathercontentproductcarusel: ProductsCarousel,
+  gathercontentHeroFullWidth: HeroFullWidth,
 }
 
 function capitalizeFirstLetter(string: string) {

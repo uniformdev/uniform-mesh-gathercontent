@@ -1,12 +1,12 @@
 import React from 'react'
 import ProductItem from '../ProductItem'
 import Carousel from '../Carousel'
-import { StrapiProduct } from '../../types'
+import { GatherContentProduct } from '../../types'
 
 export type ProductsCarouselProps = {
   title: string
   spacing: boolean
-  products: StrapiProduct[]
+  products: GatherContentProduct[]
 }
 
 const ProductsCarousel = ({ title, products = [], spacing }: ProductsCarouselProps) => (
@@ -15,7 +15,7 @@ const ProductsCarousel = ({ title, products = [], spacing }: ProductsCarouselPro
     <Carousel>
       {products?.map?.(item => (
         <div key={`featured-product-${item.id}`} className="px-1">
-          <ProductItem product={item?.attributes} />
+          <ProductItem product={item?.data} />
         </div>
       ))}
     </Carousel>

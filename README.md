@@ -1,10 +1,10 @@
-# Strapi Mesh integration
+# GatherContent Mesh integration
 
 ### Contains:
 
 - client demo site (see `/client-site`)
 - mesh SDK app (see `/mesh-app`)
-- strapi cms (see `/strapi-cms`)
+- GatherContent cms (see `/GatherContent-cms`)
 
 # Production installation
 
@@ -16,16 +16,16 @@ Add an external integration in the Uniform dashboard and use the following for t
     "canvas": {
       "parameterTypes": [
         {
-          "type": "strapi-content",
+          "type": "gather-content-content",
           "editorUrl": "/parameter-editor",
-          "displayName": "Strapi Content",
+          "displayName": "gather-content Content",
           "configureUrl": "/parameter-config"
         }
       ]
     },
     "install": {
       "description": [
-        "Strapi CMS"
+        "GatherContent CMS"
       ]
     },
     "settings": {
@@ -36,8 +36,8 @@ Add an external integration in the Uniform dashboard and use the following for t
 }
 ```
 
-- Badge Icon Url: `https://strapi-mesh-integration.netlify.app/strapi-badge.svg`
-- Logo Icon Url: `https://strapi-mesh-integration.netlify.app/strapi-logo.svg`
+- Badge Icon Url: `https://gather-content-mesh-integration.netlify.app/GatherContent-badge.svg`
+- Logo Icon Url: `https://gather-content-mesh-integration.netlify.app/GatherContent-logo.svg`
 
 # Location configuration in Uniform
 
@@ -49,16 +49,16 @@ Add an external integration in the Uniform dashboard and use the following for t
     "canvas": {
       "parameterTypes": [
         {
-          "type": "strapi-content",
+          "type": "gather-content-content",
           "editorUrl": "/parameter-editor",
-          "displayName": "Strapi Content",
+          "displayName": "gather-content Content",
           "configureUrl": "/parameter-config"
         }
       ]
     },
     "install": {
       "description": [
-        "Strapi CMS"
+        "GatherContent CMS"
       ]
     },
     "settings": {
@@ -69,8 +69,8 @@ Add an external integration in the Uniform dashboard and use the following for t
 }
 ```
 
-- Badge Icon Url: `http://localhost:3000/strapi-badge.svg`
-- Logo Icon Url: `http://localhost:3000/strapi-logo.svg`
+- Badge Icon Url: `http://localhost:3000/gather-content-badge.svg`
+- Logo Icon Url: `http://localhost:3000/gather-content-logo.svg`
 
 
 # Location configuration notes
@@ -244,7 +244,7 @@ Here is an example how we use it:
   }
 ```
 
-2. Strapi CMS needs the content type to be specified for fetch by ids query. To collect data of different content types we just hitting the Strapi API several times in the loop.
+2. GatherContent CMS needs the content type to be specified for fetch by ids query. To collect data of different content types we just hitting the GatherContent API several times in the loop.
 
 Here is an example:
 
@@ -315,4 +315,4 @@ Here is an example:
   }
 ```
 
-4. Strapi CMS does not have full cloud version. So it should be hosted somewhere. For demo cms was build locally and published on AWS Elastic Beanstalk. For `https` protocol AWS CloudFront distribution was created.
+4. GatherContent CMS does not have full cloud version. So it should be hosted somewhere. For demo cms was build locally and published on AWS Elastic Beanstalk. For `https` protocol AWS CloudFront distribution was created.

@@ -1,8 +1,8 @@
 import { CanvasClient, CANVAS_PUBLISHED_STATE, CANVAS_DRAFT_STATE, enhance, EnhancerBuilder } from '@uniformdev/canvas'
 import { GetStaticPropsContext, PreviewData } from 'next'
 import { ParsedUrlQuery } from 'querystring'
-import { STRAPI_CANVAS_PARAMETER_TYPES } from './constants'
-import strapiEnhancer from './enhancers'
+import { GATHER_CONTENT_CANVAS_PARAMETER_TYPES } from './constants'
+import gatherContentEnhancer from './enhancers'
 
 export const canvasClient = new CanvasClient({
   apiHost: process.env.UNIFORM_CLI_BASE_URL || 'https://canary.uniform.app',
@@ -24,7 +24,7 @@ export async function getCompositionBySlug(slug: string, context: GetStaticProps
   await enhance({
     composition,
     context,
-    enhancers: new EnhancerBuilder().parameterType(STRAPI_CANVAS_PARAMETER_TYPES, strapiEnhancer()),
+    enhancers: new EnhancerBuilder().parameterType(GATHER_CONTENT_CANVAS_PARAMETER_TYPES, gatherContentEnhancer()),
   })
 
   return composition

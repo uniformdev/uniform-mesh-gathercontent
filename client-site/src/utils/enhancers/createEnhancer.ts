@@ -1,26 +1,26 @@
 import { ComponentParameterEnhancer } from '@uniformdev/canvas'
 import { isParameterValueDefined, parameterIsEntry } from './entryParameter'
-import { StrapiCmsValueParams } from '../../types'
-import StrapiClient from '../StrapiClient'
+import { GatherContentCmsValueParams } from '../../types'
+import GatherContentClient from '../GatherContentClient'
 
-export type createStrapiEnhancerOptions = {
-  clients: StrapiClient
+export type createGatherContentEnhancerOptions = {
+  clients: GatherContentClient
 }
 
-export function createStrapiEnhancer({
+export function createGatherContentEnhancer({
   clients,
-}: createStrapiEnhancerOptions): ComponentParameterEnhancer<StrapiCmsValueParams> {
+}: createGatherContentEnhancerOptions): ComponentParameterEnhancer<GatherContentCmsValueParams> {
   if (!clients) {
-    throw new Error('No Strapi clients were provided to the enhancer')
+    throw new Error('No GatherContent clients were provided to the enhancer')
   }
 
   return {
-    enhanceOne: async function StrapiEnhancer({ parameter }) {
+    enhanceOne: async function GatherContentEnhancer({ parameter }) {
       if (parameterIsEntry(parameter)) {
         if (!isParameterValueDefined(parameter.value)) {
           return null
         }
-        const client = clients as StrapiClient
+        const client = clients as GatherContentClient
         const { entries = [] } = parameter.value || {}
 
         return client.getContentEntries({ entries })

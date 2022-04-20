@@ -1,4 +1,4 @@
-export const STRAPI_CANVAS_PARAMETER_TYPES = Object.freeze(['strapi'])
+export const GATHER_CONTENT_CANVAS_PARAMETER_TYPES = Object.freeze(['gathercontent'])
 
 export enum Themes {
   dark = 'dark',

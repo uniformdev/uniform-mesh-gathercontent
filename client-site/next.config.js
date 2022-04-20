@@ -6,18 +6,19 @@ const config = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   images: {
-    domains: [process.env.STRAPI_API_HOST?.replace('https://', '')],
+    domains: ["assets.gathercontent.com"],
   },
   env: {
     THEME: process.env.THEME || 'light',
   },
   serverRuntimeConfig: {
-    identifier: process.env.STRAPI_IDENTIFIER,
-    password: process.env.STRAPI_PASSWORD,
-    apiHost: process.env.STRAPI_API_HOST,
+      apiUsername: process.env.GATHER_CONTENT_API_USERNAME,
+      apiKey: process.env.GATHER_CONTENT_API_KEY,
+      projectId: process.env.GATHER_CONTENT_PROJECT_ID,
+      apiHost: process.env.GATHER_CONTENT_API_HOST,
   },
   publicRuntimeConfig: {
-    apiHost: process.env.STRAPI_API_HOST,
+    apiHost: process.env.GatherContent_API_HOST,
   },
 }
 

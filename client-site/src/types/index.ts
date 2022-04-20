@@ -1,33 +1,33 @@
-export interface StrapiParams {
-  identifier?: string
-  password?: string
+export interface Params {
+  apiUsername?: string
+  apiKey?: string
+  projectId?: string
   apiHost?: string
+  cmsHost?: string
 }
 
-export interface StrapiCmsValueParams {
+export interface GatherContentCmsValueParams {
   entries: {
     id: string
     contentType: string
   }[]
 }
 
-export interface IVType<T> {
-  iv: T
-}
-
 export interface ProductData {
-  description: IVType<string>
-  id: IVType<number>
-  image: IVType<string[]>
-  title: IVType<string>
-}
-
-export interface StrapiProduct {
+  description: string
   id: string
-  attributes: ProductData
+  image: {
+    url: string
+  }
+  title: string
 }
 
-export interface StrapiImage {
+export interface GatherContentProduct {
+  id: string
+  data: ProductData
+}
+
+export interface GatherContentImage {
   data: {
     attributes: {
       url: string

@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import { prepareImageUrl } from '../../utils/prepareImageUrl'
 
 const ProductItem = ({ product }) => {
   const { image, title, description } = product || {}
@@ -14,14 +13,16 @@ const ProductItem = ({ product }) => {
         <div>
           <div className="flex flex-col cursor-pointer items-center w-full">
             <div className="relative p-[10px] lg:-m-[2px] lg:outline-1 lg:outline outline-demo_border bg-white lg:group-hover:outline-transparent dark:lg:group-hover:outline-white">
-              <Image width={226} height={237} src={prepareImageUrl(image)} />
+              <Image width={226} height={237} src={image[0].url} />
             </div>
-            <span className="mt-6 font-bold text-xl h-[58px] max-w-[205px] overflow-hidden text-ellipsis text-center">
-              {title}
-            </span>
-            <span className="text-sm h-[58px] max-w-[205px] overflow-hidden text-ellipsis text-center">
-              {description}
-            </span>
+            <span
+              className="mt-6 font-bold text-xl h-[58px] max-w-[205px] overflow-hidden text-ellipsis text-center"
+              dangerouslySetInnerHTML={{ __html: title }}
+            />
+            <span
+              className="text-sm h-[58px] max-w-[205px] overflow-hidden text-ellipsis text-center"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           </div>
         </div>
       </div>

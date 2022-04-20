@@ -128,10 +128,9 @@ export default class IntegrationClient implements Params {
 
   async getContentEntries({ entries, withContent = false }): Promise<ContentEntry[]> {
     const token = await this.login()
-
     const query = qs.stringify(
       {
-        name_contains: entries.map(e => e.cmsId),
+          item_id: entries.map(e => e.id),
       },
       {
         encodeValuesOnly: true,
@@ -152,9 +151,7 @@ export default class IntegrationClient implements Params {
 
     let cmsEntries = result?.data || []
 
-    if (withContent) {
-      cmsEntries = await this.updateContentEntriesWithContent({ entries: cmsEntries })
-    }
+
 
     return cmsEntries
       .map(item => ({
