@@ -21,9 +21,12 @@ export class GatherContentClient {
     this.projectId = projectId;
   }
 
-  public async getTemplates() {
+  public async getTemplates(options?: { per_page?: number }) {
     const templates = await this.apiFetch<Template[]>({
       apiPath: `/projects/${this.projectId}/templates`,
+      queryParams: {
+        per_page: options?.per_page || 100,
+      },
     });
     return templates.data;
   }
