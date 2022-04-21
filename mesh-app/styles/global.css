@@ -9,3 +9,15 @@
 .relative {
   position: relative;
 }
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.font-bold {
+  font-weight: var(--fw-bold);
+}

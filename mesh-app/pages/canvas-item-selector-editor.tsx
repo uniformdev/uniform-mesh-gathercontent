@@ -37,12 +37,15 @@ export default function CanvasItemSelectorEditor() {
 
   if (resolvedLinkedSource?.project?.apiKey) {
     return (
-      <ItemSearch
-        linkedSource={resolvedLinkedSource}
-        allowedTemplates={metadata.parameterConfiguration?.allowedTemplates}
-        value={value}
-        setValue={setValue}
-      />
+      <>
+        <label className="flex items-center font-bold">{metadata.parameterDefinition.name}</label>
+        <ItemSearch
+          linkedSource={resolvedLinkedSource}
+          allowedTemplates={metadata.parameterConfiguration?.allowedTemplates}
+          value={value}
+          setValue={setValue}
+        />
+      </>
     );
   }
 
@@ -111,9 +114,9 @@ function ItemSearch({
         }))
     : undefined;
 
-  const handleSelect = async (ids: string[]) => {
+  const handleSelect = async (items: EntrySearchResult[]) => {
     await setValue({
-      itemIds: ids.map((id) => Number(id)),
+      itemIds: items.map((item) => Number(item.id)),
       source: linkedSource.id,
     });
   };
