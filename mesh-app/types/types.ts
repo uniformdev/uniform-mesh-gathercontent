@@ -27,6 +27,9 @@ export interface CanvasItemSelectorEditorMetadataValue {
   settings: SettingsValue;
   /** Uniform project id, not GatherContent project id */
   projectId: string;
+  parameterDefinition: {
+    name: string;
+  };
 }
 
 export interface SettingsValue {

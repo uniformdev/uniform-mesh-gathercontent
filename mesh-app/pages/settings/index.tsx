@@ -8,11 +8,19 @@ import {
   Heading,
 } from '@uniformdev/mesh-sdk-react';
 import { ProjectSettings, SettingsValue } from '../../types';
+import { GatherContentClient } from '../../lib/GatherContentClient';
 
 export default function Settings() {
   const { value, setValue } = useUniformMeshLocation<SettingsValue>();
 
   const handleSettingsChange = async (settings: ProjectSettings) => {
+    const valid = await validateApiConnection(settings);
+    if (!valid) {
+      throw new Error(
+        'It appears that the provided settings are not able to access the GatherContent API. Please check the settings and try again.'
+      );
+    }
+
     await setValue({
       linkedSources: [
         {
@@ -63,6 +71,7 @@ const SettingsInner = ({
   }, [settings]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(undefined);
     setFormState((prev) => {
       return {
         ...prev,
@@ -78,6 +87,7 @@ const SettingsInner = ({
       return;
     }
 
+    setError(undefined);
     setFormState((prev) => ({
       ...prev,
       isSubmitting: true,
@@ -141,3 +151,20 @@ const SettingsInner = ({
     </div>
   );
 };
+
+async function validateApiConnection(settings: ProjectSettings) {
+  const client = new GatherContentClient({
+    apiKey: settings.apiKey,
+    apiUsername: settings.apiUsername,
+    projectId: settings.projectId,
+  });
+
+  let isValid = true;
+  try {
+    await client.getTemplates({ per_page: 1 });
+  } catch (err) {
+    isValid = false;
+  }
+
+  return isValid;
+}
