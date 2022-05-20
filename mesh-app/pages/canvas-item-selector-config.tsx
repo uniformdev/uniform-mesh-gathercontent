@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import {
   Callout,
   LoadingIndicator,
   useUniformMeshLocation,
   ScrollableList,
   ScrollableListItem,
+  ValidationResult,
+  InputToggle,
 } from '@uniformdev/mesh-sdk-react';
 import { useAsync } from 'react-use';
 import {
@@ -18,22 +20,61 @@ import {
 import { GatherContentClient } from '../lib/GatherContentClient';
 import { LinkedSourceSelect } from '../components/LinkedSourceSelect';
 
+function validate(config: CanvasItemSelectorConfigValue): ValidationResult {
+  if (
+    !config ||
+    !config.source ||
+    !config.allowedTemplates ||
+    Object.values(config.allowedTemplates).every((val) => typeof val === 'undefined')
+  ) {
+    return {
+      isValid: false,
+      validationMessage: 'At least one template must be selected.',
+    };
+  }
+  return {
+    isValid: true,
+  };
+}
+
 export default function CanvasItemSelectorConfig() {
   const {
     value: config,
     setValue: setConfig,
     metadata,
+    setValidationResult,
   } = useUniformMeshLocation<CanvasItemSelectorConfigValue, CanvasItemSelectorConfigMetadataValue>();
 
+  useEffect(
+    () => {
+      const runEffect = async () => {
+        await setValidationResult(validate(config));
+      };
+      runEffect();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
   const handleAllowedTemplatesSetValue = async (allowedTemplates: TemplateMap | undefined) => {
-    await setConfig({ ...config, allowedTemplates });
+    const newConfig = { ...config, allowedTemplates };
+
+    await setConfig(newConfig, validate(newConfig));
   };
 
   const handleLinkedSourceSelect = async (value: LinkedSource) => {
-    await setConfig({
-      ...config,
-      source: value.id,
-    });
+    await setConfig(
+      {
+        ...config,
+        source: value.id,
+      },
+      { isValid: true }
+    );
+  };
+
+  const handleRequiredToggle = async (e: ChangeEvent<HTMLInputElement>) => {
+    const newConfig = { ...config, required: e.target.checked };
+    await setConfig(newConfig, validate(newConfig));
   };
 
   const selectedLinkedSource = metadata.settings.linkedSources?.find((ls) => ls.id === config?.source);
@@ -55,17 +96,22 @@ export default function CanvasItemSelectorConfig() {
       )}
 
       {config?.source && projectSettings ? (
-        <TemplateSelector
-          projectSettings={projectSettings}
-          setValue={handleAllowedTemplatesSetValue}
-          value={config.allowedTemplates}
-        />
-      ) : (
-        <Callout type="error">
-          It appears the GatherContent integration is not configured. Please visit the &quot;Settings &gt;
-          GatherContent&quot; page to provide information for connecting to GatherContent.
-        </Callout>
-      )}
+        <div className="space-y-4">
+          <TemplateSelector
+            projectSettings={projectSettings}
+            setValue={handleAllowedTemplatesSetValue}
+            value={config.allowedTemplates}
+          />
+          <InputToggle
+            label="Required"
+            name="required"
+            type="checkbox"
+            caption="Requires users to select at least one item from the GatherContent item selector"
+            checked={Boolean(config?.required)}
+            onChange={handleRequiredToggle}
+          />
+        </div>
+      ) : null}
     </>
   );
 }
