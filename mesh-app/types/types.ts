@@ -8,6 +8,7 @@ export type CanvasItemSelectorConfigValue =
   | {
       allowedTemplates?: TemplateMap;
       source?: LinkedSource['id'];
+      required?: boolean;
     }
   | undefined;
 
