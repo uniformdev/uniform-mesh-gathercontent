@@ -42,12 +42,13 @@ export default function CanvasItemSelectorEditor() {
 
   useEffect(
     () => {
-      if (metadata.parameterConfiguration?.required) {
-        const runEffect = async () => {
-          await setValidationResult(validate(value, metadata.parameterDefinition.name));
-        };
-        runEffect();
-      }
+      const runEffect = async () => {
+        const result: ValidationResult = metadata.parameterConfiguration?.required
+          ? validate(value, metadata.parameterDefinition.name)
+          : { isValid: true };
+        await setValidationResult(result);
+      };
+      runEffect();
     },
     // we only want to run this effect on initial render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
