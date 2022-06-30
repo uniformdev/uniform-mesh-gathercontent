@@ -1,7 +1,7 @@
 {
   "name": "@uniformdev/mesh-app-gathercontent",
   "description": "Uniform Mesh app for GatherContent",
-  "version": "16.0.0",
+  "version": "16.2.0",
   "scripts": {
     "dev": "cross-env PORT=4020 next dev",
     "build": "next build",
@@ -11,7 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@uniformdev/mesh-sdk-react": "16.1.0",
+    "@uniformdev/mesh-sdk-react": "16.2.0",
     "next": "12.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
